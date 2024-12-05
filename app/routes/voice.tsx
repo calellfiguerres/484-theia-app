@@ -4,6 +4,7 @@ import luke from "../Luke's Room.svg?url";
 import alex from "../Alex's Bedroom.svg?url";
 import kitchen from "../Kitchen.svg?url";
 import livingRoom from "../Living Room.svg?url";
+import { Link } from '@remix-run/react';
 
 export default function VoiceCommandApp() {
     const [transcript, setTranscript] = useState('');
@@ -67,6 +68,7 @@ export default function VoiceCommandApp() {
 
     return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
+        <h2><Link to="/">Go Back</Link></h2>
             <h1>Voice Command App</h1>
             <button onClick={startVoiceCommand} disabled={isListening}>{isListening ? "Listening..." : "Start Listening"}</button>
             <div>

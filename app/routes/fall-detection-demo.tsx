@@ -5,6 +5,7 @@ export default function FallDetectionDemo() {
     
     const [fallDetected, setFallDetected] = useState(false);
     const [acceleration, setAcceleration] = useState({ x: 0, y: 0, z: 0 });
+    const [text, setText] = useState("asdf");
 
     const navigate = useNavigate();
 
@@ -29,23 +30,53 @@ export default function FallDetectionDemo() {
                 navigate("/fall-detected", { replace: false });
 
                 // Reset detection after 2 seconds
-                // setTimeout(() => setFallDetected(false), 2000);
+                setTimeout(() => setFallDetected(false), 2000);
             }
         };
 
         // Request permission for motion sensors on modern browsers
         const requestPermission = async () => {
-            if (
-                typeof DeviceMotionEvent.requestPermission === "function"
-            ) {
-                const response = await DeviceMotionEvent.requestPermission();
+            if (typeof DeviceMotionEvent.requestPermission === "function") {
+                try {
+                  const response = await DeviceMotionEvent.requestPermission();
                 if (response === "granted") {
-                    window.addEventListener("devicemotion", handleMotion);
+                  console.log("Device motion access granted");
+                //   setText("granted");
+                  startMotionTracking();
+                } else {
+                  console.error("Permission to access device motion denied");
+                //   setText("denied")
                 }
+              } catch (error) {
+                console.error("Error requesting device motion permission:", error);
+                // setText("error: ")
+              }
             } else {
-                window.addEventListener("devicemotion", handleMotion);
+              console.log("DeviceMotionEvent.requestPermission not required or not supported");
+            //   setText("not supported")
+              startMotionTracking();
             }
+          };
+
+          const startMotionTracking = () => {
+            const handleMotion = (event) => {
+              const { x, y, z } = event.accelerationIncludingGravity || {};
+              console.log("Motion data:", { x, y, z });
+            };
+        
+            window.addEventListener("devicemotion", handleMotion);
+
+            // if (DeviceMotionEvent && typeof DeviceMotionEvent.requestPermission === "function") {
+            //     DeviceMotionEvent.requestPermission();
+                
+            //     window.addEventListener("devicemotion", handleMotion);
+            //     // window.addEventListener("deviceorientation", handleOrientation);
+
+            // }
+
+            return () => window.removeEventListener("devicemotion", handleMotion);
         };
+        
 
         requestPermission();
 
@@ -57,6 +88,7 @@ export default function FallDetectionDemo() {
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h1>Fall Detector</h1>
+            <h1>{text}</h1>
             {fallDetected ? (
                 <h2 style={{ color: "red" }}>Fall Detected!</h2>
             ) : (

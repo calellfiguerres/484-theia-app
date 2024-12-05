@@ -13,21 +13,25 @@ export default function Index() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if (localStorage.getItem("firstName") == null) {
+        if (localStorage.getItem("welcomeCompleted") == null) {
             navigate("/welcome", { replace: false });
         }
     });
 
     return (
         <>
-            <h1>Index</h1>
+            <h1>Theia App</h1>
 
-            <button onClick={() => navigate("/welcome")}>Welcome</button>
+            {/* <button onClick={() => navigate("/welcome")}>Welcome</button>
             <br />
-
-            {/* <button onClick={() => navigate("/settings")}>Settings</button> */}
+            <br /> */}
+            <button onClick={() => navigate("/test")}>Fall Detection</button>
             <br />
-            <button onClick={() => navigate("/fall-detection-demo")}>Fall Detection</button>
+            <br />
+            <button onClick={() => navigate("/voice")}>Voice Navigation</button>
+            <br />
+            <br />
+            <button onClick={() => navigate("/settings")}>Settings</button>
         </>
     );
 }

@@ -1,4 +1,4 @@
-import { useNavigate } from '@remix-run/react';
+import { Link, useNavigate } from '@remix-run/react';
 import React, { useEffect, useRef, useState } from 'react';
 
 const DeviceAcceleration = () => {
@@ -46,7 +46,7 @@ const DeviceAcceleration = () => {
         );
 
 
-        if (magnitude > 25) {
+        if (magnitude > 15) {
             setFallDetected(true);
 
             navigate("/fall-detected", { replace: false });
@@ -68,11 +68,12 @@ const DeviceAcceleration = () => {
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '1rem' }}>
-      <h2>Device Acceleration</h2>
+      <h2><Link to="/">Go Back</Link></h2>
+      <h2>Fall Detection</h2>
       <h2>Fall Detected: {fallDetected ? "true" : "false"}</h2>
-      <p>{movingX ? "Moving" : null}<strong>X:</strong> {acceleration.x !== null ? acceleration.x.toFixed(2) : 'N/A'}</p>
-      <p>{movingY ? "Moving" : null}<strong>Y:</strong> {acceleration.y !== null ? acceleration.y.toFixed(2) : 'N/A'}</p>
-      <p>{movingZ ? "Moving" : null}<strong>Z:</strong> {acceleration.z !== null ? acceleration.z.toFixed(2) : 'N/A'}</p>
+      <p><strong>X:</strong> {acceleration.x !== null ? acceleration.x.toFixed(2) : 'N/A'}</p>
+      <p><strong>Y:</strong> {acceleration.y !== null ? acceleration.y.toFixed(2) : 'N/A'}</p>
+      <p><strong>Z:</strong> {acceleration.z !== null ? acceleration.z.toFixed(2) : 'N/A'}</p>
     </div>
   );
 };

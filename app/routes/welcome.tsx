@@ -1,7 +1,6 @@
-import { ActionFunctionArgs } from "@remix-run/node";
-import { Form, redirect } from "@remix-run/react";
+import { ClientActionFunctionArgs, Form, redirect } from "@remix-run/react";
 
-export async function clientAction({ request }: ActionFunctionArgs) {
+export async function clientAction({ request }: ClientActionFunctionArgs) {
     const formData = await request.formData()
 
     localStorage.setItem("firstName", formData.get("firstName") as string);
@@ -12,12 +11,15 @@ export async function clientAction({ request }: ActionFunctionArgs) {
     localStorage.setItem("guideDog", formData.get("guideDog") as string);
     localStorage.setItem("cane", formData.get("cane") as string);
 
+    localStorage.setItem("welcomeCompleted", "true");
+
     return redirect("/");
 }
 
 export default function Welcome() {
     return (
         <>
+        <h1>Welcome to Theia!</h1>
             <Form method="POST">
                 <p>First Name</p>
                 <input type="text" id="name" name="firstName" />
